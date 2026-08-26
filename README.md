@@ -46,12 +46,30 @@ interface + flip a config value, not a codebase-wide hunt.
 The actual coding languages (TypeScript, SQL) are the one thing here that's
 *not* meant to be swappable.
 
+## Auth providers
+
+Google + Apple sign-in, no username/password. As of now, only a Google Cloud
+project is required and it's free — Apple Sign-In needs a paid Apple
+Developer Program membership, which doesn't exist yet, so it's stubbed out
+behind a flag until that membership exists. Nothing else is blocked on it.
+
 ## Local setup
 
 ```bash
 pnpm install
+
+# one-time: authenticate the Supabase CLI, then link this repo to the
+# real Supabase project (created via the dashboard first)
+pnpm db:login
+pnpm db:link
+
+# apply migrations in supabase/migrations/ to the linked project
+pnpm db:push
+
 pnpm --filter mobile start   # Expo dev server — scan the QR with Expo Go
 ```
 
-Backend/Supabase local dev instructions land here once a Supabase project
-exists (`supabase/` is currently just scaffolding, not wired to a real project yet).
+Copy `apps/mobile/.env.example` -> `apps/mobile/.env.local` and
+`supabase/functions/.env.example` -> `supabase/functions/.env.local`, filling
+in real values from the Supabase dashboard. Neither `.env.local` file is
+committed.
